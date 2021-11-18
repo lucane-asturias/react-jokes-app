@@ -33,7 +33,7 @@ class JokeList extends Component {
                     console.log("FOUND A DUPLICATE!");
                 }
             }
-            // console.log(jokes);
+            console.log(jokes);
             this.setState(st => ({ 
                 loading: false, jokes: [ ...st.jokes, ...jokes ] }),
             () => window.localStorage.setItem("jokes", JSON.stringify(this.state.jokes))
@@ -66,8 +66,9 @@ class JokeList extends Component {
                 </div>
           );
         }
-        // let jokes = this.state.jokes.sort((a, b) => b.votes - a.votes);
-        const jokes = [...this.state.jokes].sort((a, b) => b.score - a.score);
+        // let sortedJokes = this.state.jokes.sort((a, b) => b.votes - a.votes);
+        //better approach (this way it won't mutate the state):
+        const sortedJokes = [ ...this.state.jokes ].sort((a, b) => b.votes - a.votes);
         return (
             <div className="JokeList">
             <div className="JokeList-sidebar">
@@ -80,7 +81,7 @@ class JokeList extends Component {
                 </button>
             </div>
                 <div className="JokeList-jokes">
-                    {jokes.map(j => (
+                    {sortedJokes.map(j => (
                         <Joke 
                             key={j.id}  
                             text={j.text} 
